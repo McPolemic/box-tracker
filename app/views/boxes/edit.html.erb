@@ -1,0 +1,12 @@
+<% content_for :title, "Editing Box" %>
+
+<main>
+  <h1>Editing Box</h1>
+
+  <%= render "form", box: @box %>
+
+  <nav>
+    <%= link_to "Show this box", @box %> |
+    <%= link_to "Back to boxes", boxes_path %>
+  </nav>
+</main>

@@ -1,0 +1,28 @@
+<%= form_with(model: box_group, local: true) do |form| %>
+  <% if box_group.errors.any? %>
+    <div class="alert">
+      <h2>
+        <%= pluralize(box_group.errors.count, "error") %> prohibited this box group from being saved:
+      </h2>
+      <ul>
+        <% box_group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :display_name %>
+    <%= form.text_field :display_name %>
+  </div>
+
+  <div>
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

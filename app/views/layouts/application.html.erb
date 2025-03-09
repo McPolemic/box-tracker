@@ -23,6 +23,15 @@
   </head>
 
   <body>
+    <header>
+      <nav>
+        <ul>
+          <li><%= link_to "Boxes", boxes_path %></li>
+          <li><%= link_to "Groups", box_groups_path %></li>
+        </ul>
+      </nav>
+    </header>
+
     <%= yield %>
   </body>
 </html>

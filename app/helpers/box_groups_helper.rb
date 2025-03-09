@@ -1,0 +1,2 @@
+module BoxGroupsHelper
+end

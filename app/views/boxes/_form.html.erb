@@ -1,0 +1,31 @@
+<%= form_with(model: box, local: true, html: { multipart: true }) do |form| %>
+  <% if box.errors.any? %>
+    <div class="alert error">
+      <h2><%= pluralize(box.errors.count, "error") %> prohibited this box from being saved:</h2>
+      <ul>
+        <% box.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :display_name %>
+    <%= form.text_field :display_name %>
+  </div>
+
+  <div>
+    <%= form.label :contents %>
+    <%= form.text_area :contents %>
+  </div>
+
+  <div>
+    <%= form.label :uploaded_images, "Upload Images" %>
+    <%= form.file_field :uploaded_images, multiple: true %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

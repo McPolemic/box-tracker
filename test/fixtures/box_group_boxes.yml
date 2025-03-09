@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  box_group: one
+  box: one
+
+two:
+  box_group: two
+  box: two

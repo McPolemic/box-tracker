@@ -1,0 +1,44 @@
+<% content_for :title, "Box Details" %>
+
+<main>
+  <% if notice.present? %>
+    <div class="alert"><%= notice %></div>
+  <% end %>
+
+  <h1>Box Details</h1>
+
+  <section id="box-details">
+    <p>
+      <strong>Display Name:</strong>
+      <%= @box.display_name %>
+    </p>
+    <p>
+      <strong>Contents:</strong>
+      <%= @box.contents %>
+    </p>
+  </section>
+
+  <section id="qr-code">
+    <h2>QR Code</h2>
+    <%= image_tag qr_box_path(@box), alt: "QR Code for Box" %>
+  </section>
+
+  <section id="box-images">
+    <h2>Uploaded Images</h2>
+    <% if @box.images.any? %>
+      <% @box.images.each do |image| %>
+        <div class="box-image">
+          <%= image_tag image_path(image), alt: "Box Image" %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No images uploaded.</p>
+    <% end %>
+  </section>
+
+  <nav>
+    <%= link_to "Edit this box", edit_box_path(@box) %> |
+    <%= link_to "Back to boxes", boxes_path %> |
+    <%= button_to "Destroy this box", @box, method: :delete, data: { confirm: "Are you sure?" } %>
+  </nav>
+</main>

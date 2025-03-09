@@ -1,0 +1,11 @@
+<% content_for :title, "New Box Group" %>
+
+<main>
+  <h1>New Box Group</h1>
+
+  <%= render "form", box_group: @box_group %>
+
+  <p>
+    <%= link_to "Back to Box Groups", box_groups_path %>
+  </p>
+</main>

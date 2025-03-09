@@ -1,0 +1,32 @@
+<% content_for :title, "Box Groups" %>
+
+<main>
+  <h1>Box Groups</h1>
+
+  <% if notice.present? %>
+    <div class="alert"><%= notice %></div>
+  <% end %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Display Name</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @box_groups.each do |box_group| %>
+        <tr>
+          <td><%= link_to box_group.id, box_group %></td>
+          <td><%= link_to box_group.display_name, box_group %></td>
+          <td><%= link_to box_group.notes, box_group %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p>
+    <%= link_to "New Box Group", new_box_group_path, class: "button" %>
+  </p>
+</main>

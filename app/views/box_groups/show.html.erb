@@ -1,0 +1,20 @@
+<% content_for :title, "Box Group Details" %>
+
+<main>
+  <% if notice.present? %>
+    <div class="alert"><%= notice %></div>
+  <% end %>
+
+  <h1>Box Group Details</h1>
+
+  <%= render @box_group %>
+
+  <p>
+    <%= link_to "Edit this Box Group", edit_box_group_path(@box_group) %> |
+    <%= link_to "Back to Box Groups", box_groups_path %>
+  </p>
+
+  <p>
+    <%= button_to "Destroy this Box Group", @box_group, method: :delete, data: { confirm: "Are you sure?" } %>
+  </p>
+</main>
