@@ -60,9 +60,13 @@ class BoxesController < ApplicationController
       params.require(:box).permit(:display_name, :contents, { uploaded_images: [] })
     end
 
+    def uploaded_images_params
+      box_params[:uploaded_images].reject(&:empty?)
+    end
+
     # For each uploaded file, create an Image record and associate it with this box.
     def attach_uploaded_images
-      Array(box_params[:uploaded_images]).each do |uploaded_file|
+      Array(uploaded_images_params).each do |uploaded_file|
         image = Image.create(data: uploaded_file.read, content_type: uploaded_file.content_type)
         BoxImage.create(box: @box, image: image)
       end
