@@ -1,0 +1,37 @@
+---
+version: '3.7'
+services:
+  tailscale-sidecar:
+    image: tailscale/tailscale:latest
+    hostname: box-tracker
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - tailscale-data:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    restart: unless-stopped
+
+  box_tracker:
+    image: box_tracker:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: service:tailscale-sidecar
+    depends_on:
+      - tailscale-sidecar
+    environment:
+      - RAILS_ENV=production
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    volumes:
+      - box_tracker_data:/rails/storage
+    restart: always
+
+volumes:
+  tailscale-data:
+    driver: local
+  box_tracker_data:
+    driver: local
