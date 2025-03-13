@@ -177,6 +177,14 @@ form input[type="submit"]:hover {
     background-color: #333;
   }
 
+  table tbody tr:nth-child(even) {
+    background-color: #222;
+  }
+
+  table tbody tr:hover {
+    background-color: #282828;
+  }
+
   a {
     color: #66aaff;
   }
@@ -193,5 +201,14 @@ form input[type="submit"]:hover {
 
   .button:hover {
     background-color: #1669c1;
+  }
+
+  header {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #333;
+  }
+
+  header nav ul li a {
+    color: #66aaff;
   }
 }
