@@ -61,7 +61,7 @@ class BoxesController < ApplicationController
     end
 
     def uploaded_images_params
-      box_params[:uploaded_images].reject(&:empty?)
+      box_params[:uploaded_images].reject(&:blank?)
     end
 
     # For each uploaded file, create an Image record and associate it with this box.
