@@ -7,7 +7,6 @@ services:
     environment:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
-      - FORCE_SSL=false
     volumes:
       - tailscale-data:/var/lib/tailscale
       - /dev/net/tun:/dev/net/tun
@@ -27,6 +26,7 @@ services:
     environment:
       - RAILS_ENV=production
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - FORCE_SSL=false
     volumes:
       - box_tracker_data:/rails/storage
     restart: always
