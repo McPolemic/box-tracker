@@ -6,6 +6,6 @@ class CreateBoxGroupImages < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    add_index :box_group_images, [:box_group_id, :image_id], unique: true
+    add_index :box_group_images, [ :box_group_id, :image_id ], unique: true
   end
 end

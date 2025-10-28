@@ -4,17 +4,17 @@ Rails.application.routes.draw do
   resources :boxes
   resources :box_groups do
     member do
-      post 'add_box'
-      delete 'remove_box'
+      post "add_box"
+      delete "remove_box"
     end
 
     collection do
-      post 'bulk_add'
+      post "bulk_add"
     end
   end
   resources :images
 
-  get '/qr/box/:id.png', to: 'qr_codes#box', as: 'qr_box'
+  get "/qr/box/:id.png", to: "qr_codes#box", as: "qr_box"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -23,5 +23,4 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
 end

@@ -5,7 +5,7 @@ class QrCodesController < ApplicationController
     url = url_for(@box)
     qrcode = RQRCode::QRCode.new(url)
     png = qrcode.as_png(size: 256)
-    send_data png.to_s, type: 'image/png', disposition: 'inline'
+    send_data png.to_s, type: "image/png", disposition: "inline"
   end
 
   def box_group
@@ -13,6 +13,6 @@ class QrCodesController < ApplicationController
     url = url_for(@box_group)
     qrcode = RQRCode::QRCode.new(url)
     png = qrcode.as_png(size: 256)
-    send_data png.to_s, type: 'image/png', disposition: 'inline'
+    send_data png.to_s, type: "image/png", disposition: "inline"
   end
 end

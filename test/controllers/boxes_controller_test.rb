@@ -35,10 +35,10 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
       # Expect an Image and BoxImage to be created for the uploaded file.
       assert_difference("Image.count", 1) do
         assert_difference("BoxImage.count", 1) do
-          post boxes_url, params: { box: { 
-            display_name: "Box with Image", 
-            contents: "Content with image", 
-            uploaded_images: [@uploaded_file] 
+          post boxes_url, params: { box: {
+            display_name: "Box with Image",
+            contents: "Content with image",
+            uploaded_images: [ @uploaded_file ]
           } }
         end
       end
@@ -57,7 +57,7 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "section#box-details" do
       assert_select "p", /Display Name:/
-      assert_select "p", /Contents:/
+      assert_select "div", /Contents:/
     end
   end
 
@@ -81,10 +81,10 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
     @box.images.destroy_all
     assert_equal 0, @box.images.count
 
-    patch box_url(@box), params: { box: { 
-      display_name: @box.display_name, 
-      contents: @box.contents, 
-      uploaded_images: [@uploaded_file] 
+    patch box_url(@box), params: { box: {
+      display_name: @box.display_name,
+      contents: @box.contents,
+      uploaded_images: [ @uploaded_file ]
     } }
     assert_redirected_to box_url(@box)
     @box.reload

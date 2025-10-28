@@ -7,6 +7,6 @@ class CreateBoxGroupBoxes < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :box_group_boxes, [:box_group_id, :box_id], unique: true
+    add_index :box_group_boxes, [ :box_group_id, :box_id ], unique: true
   end
 end

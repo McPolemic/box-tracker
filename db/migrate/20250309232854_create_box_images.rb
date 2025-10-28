@@ -5,8 +5,7 @@ class CreateBoxImages < ActiveRecord::Migration[8.0]
       t.references :image, null: false, foreign_key: true
 
       t.timestamps
-
     end
-    add_index :box_images, [:box_id, :image_id], unique: true
+    add_index :box_images, [ :box_id, :image_id ], unique: true
   end
 end
