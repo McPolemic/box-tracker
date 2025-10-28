@@ -34,7 +34,8 @@ class BoxesController < ApplicationController
 
   # PATCH/PUT /boxes/1
   def update
-    if @box.update(box_params.except(:uploaded_images))
+    if @box.update(box_params.except(:uploaded_images, :remove_image_ids))
+      remove_marked_images if box_params[:remove_image_ids]
       attach_uploaded_images if box_params[:uploaded_images]
       redirect_to @box, notice: "Box was successfully updated."
     else
@@ -57,7 +58,7 @@ class BoxesController < ApplicationController
 
     # Permit parameters, including an array for uploaded images.
     def box_params
-      params.require(:box).permit(:display_name, :contents, { uploaded_images: [] })
+      params.require(:box).permit(:display_name, :contents, { uploaded_images: [], remove_image_ids: [] })
     end
 
     def uploaded_images_params
@@ -70,5 +71,12 @@ class BoxesController < ApplicationController
         image = Image.create(data: uploaded_file.read, content_type: uploaded_file.content_type)
         BoxImage.create(box: @box, image: image)
       end
+    end
+
+    # Remove images that were marked for deletion
+    def remove_marked_images
+      image_ids = box_params[:remove_image_ids].reject(&:blank?)
+      images_to_remove = Image.where(id: image_ids)
+      @box.images.delete(images_to_remove)
     end
 end

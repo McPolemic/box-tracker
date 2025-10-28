@@ -28,7 +28,7 @@
     <% if @box.images.any? %>
       <% @box.images.each do |image| %>
         <div class="box-image">
-          <%= image_tag image_path(image), alt: "Box Image" %>
+          <%= image_tag image_path(image), alt: "Box Image", style: "max-width: 100%; height: auto; border: 1px solid #ccc;" %>
         </div>
       <% end %>
     <% else %>

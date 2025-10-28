@@ -20,6 +20,33 @@
     <%= form.text_area :contents %>
   </div>
 
+  <% if box.persisted? && box.images.any? %>
+    <div>
+      <label>Current Images</label>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <% box.images.each do |image| %>
+          <div id="image-<%= image.id %>" style="position: relative; display: inline-block;">
+            <%= image_tag image_path(image), alt: "Box Image", style: "max-width: 150px; max-height: 150px; display: block;" %>
+            <button type="button" onclick="markImageForDeletion(<%= image.id %>)" style="position: absolute; top: 0; right: 0; background: rgba(255,0,0,0.8); color: white; border: none; padding: 5px 10px; cursor: pointer; font-size: 20px; line-height: 1;">×</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <script>
+      function markImageForDeletion(imageId) {
+        const container = document.getElementById('image-' + imageId);
+        container.style.display = 'none';
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'box[remove_image_ids][]';
+        input.value = imageId;
+        container.parentNode.appendChild(input);
+      }
+    </script>
+  <% end %>
+
   <div>
     <%= form.label :uploaded_images, "Upload Images" %>
     <%= form.file_field :uploaded_images, multiple: true %>
