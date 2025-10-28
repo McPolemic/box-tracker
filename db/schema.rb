@@ -16,6 +16,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_09_232854) do
     t.integer "box_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["box_group_id", "box_id"], name: "index_box_group_boxes_on_box_group_id_and_box_id", unique: true
     t.index ["box_group_id"], name: "index_box_group_boxes_on_box_group_id"
     t.index ["box_id"], name: "index_box_group_boxes_on_box_id"
   end
@@ -25,6 +26,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_09_232854) do
     t.integer "image_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["box_group_id", "image_id"], name: "index_box_group_images_on_box_group_id_and_image_id", unique: true
     t.index ["box_group_id"], name: "index_box_group_images_on_box_group_id"
     t.index ["image_id"], name: "index_box_group_images_on_image_id"
   end
