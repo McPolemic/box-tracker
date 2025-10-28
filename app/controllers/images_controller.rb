@@ -6,8 +6,11 @@ class ImagesController < ApplicationController
     @images = Image.all
   end
 
-  # GET /images/1 or /images/1.json
+  # GET /images/1
   def show
+    send_data @image.data,
+              type: @image.content_type,
+              disposition: "inline"
   end
 
   # GET /images/new
