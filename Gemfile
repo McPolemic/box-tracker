@@ -63,3 +63,4 @@ group :test do
 end
 
 gem "rqrcode", "~> 2.2"
+gem "redcarpet", "~> 3.6"

@@ -12,10 +12,10 @@
       <strong>Display Name:</strong>
       <%= @box.display_name %>
     </p>
-    <p>
+    <div>
       <strong>Contents:</strong>
-      <%= @box.contents %>
-    </p>
+      <%= markdown(@box.contents) %>
+    </div>
   </section>
 
   <section id="qr-code">
