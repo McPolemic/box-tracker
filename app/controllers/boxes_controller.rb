@@ -58,7 +58,7 @@ class BoxesController < ApplicationController
 
     # Permit parameters, including an array for uploaded images.
     def box_params
-      params.require(:box).permit(:display_name, :contents, { uploaded_images: [], remove_image_ids: [] })
+      params.require(:box).permit(:display_name, :contents, { uploaded_images: [], remove_image_ids: [], box_group_ids: [] })
     end
 
     def uploaded_images_params

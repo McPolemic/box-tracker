@@ -9,6 +9,34 @@
 
   <%= render @box_group %>
 
+  <% if @box_group.boxes.any? %>
+    <div>
+      <h2>Boxes in this Group</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Display Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @box_group.boxes.each do |box| %>
+            <tr>
+              <td><%= box.id %></td>
+              <td><%= link_to box.display_name, box_path(box) %></td>
+              <td>
+                <%= button_to "Remove from Group", remove_box_box_group_path(@box_group, box_id: box.id), method: :delete, data: { confirm: "Remove this box from the group?" } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p>No boxes in this group yet.</p>
+  <% end %>
+
   <p>
     <%= link_to "Edit this Box Group", edit_box_group_path(@box_group) %> |
     <%= link_to "Back to Box Groups", box_groups_path %>

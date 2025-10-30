@@ -20,6 +20,15 @@
     <%= form.text_area :contents %>
   </div>
 
+  <div>
+    <%= form.label :box_group_ids, "Groups" %>
+    <%= form.collection_check_boxes :box_group_ids, BoxGroup.all, :id, :display_name do |b| %>
+      <div>
+        <%= b.check_box %> <%= b.label %>
+      </div>
+    <% end %>
+  </div>
+
   <% if box.persisted? && box.images.any? %>
     <div>
       <label>Current Images</label>
