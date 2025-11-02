@@ -36,7 +36,7 @@ class BoxesController < ApplicationController
   # PATCH/PUT /boxes/1
   def update
     if @box.update(box_params.except(:uploaded_images, :remove_image_ids, :box_group_ids))
-      assign_box_group if box_params.has_key?(:box_group_ids)
+      assign_box_group if box_params.key?(:box_group_ids)
       remove_marked_images if box_params[:remove_image_ids]
       attach_uploaded_images if box_params[:uploaded_images]
       redirect_to @box, notice: "Box was successfully updated."
@@ -85,10 +85,6 @@ class BoxesController < ApplicationController
     # Assign box to a single group (replacing any existing group assignments)
     def assign_box_group
       group_id = box_params[:box_group_ids]
-      if group_id.present?
-        @box.box_group_ids = [group_id]
-      else
-        @box.box_group_ids = []
-      end
+      @box.box_group_ids = group_id.present? ? [ group_id ] : []
     end
 end
