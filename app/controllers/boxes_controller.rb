@@ -22,9 +22,10 @@ class BoxesController < ApplicationController
 
   # POST /boxes
   def create
-    @box = Box.new(box_params.except(:uploaded_images))
+    @box = Box.new(box_params.except(:uploaded_images, :box_group_ids))
 
     if @box.save
+      assign_box_group if box_params[:box_group_ids].present?
       attach_uploaded_images if box_params[:uploaded_images]
       redirect_to @box, notice: "Box was successfully created."
     else
@@ -34,7 +35,8 @@ class BoxesController < ApplicationController
 
   # PATCH/PUT /boxes/1
   def update
-    if @box.update(box_params.except(:uploaded_images, :remove_image_ids))
+    if @box.update(box_params.except(:uploaded_images, :remove_image_ids, :box_group_ids))
+      assign_box_group if box_params.has_key?(:box_group_ids)
       remove_marked_images if box_params[:remove_image_ids]
       attach_uploaded_images if box_params[:uploaded_images]
       redirect_to @box, notice: "Box was successfully updated."
@@ -58,7 +60,7 @@ class BoxesController < ApplicationController
 
     # Permit parameters, including an array for uploaded images.
     def box_params
-      params.require(:box).permit(:display_name, :contents, { uploaded_images: [], remove_image_ids: [], box_group_ids: [] })
+      params.require(:box).permit(:display_name, :contents, :box_group_ids, { uploaded_images: [], remove_image_ids: [] })
     end
 
     def uploaded_images_params
@@ -78,5 +80,15 @@ class BoxesController < ApplicationController
       image_ids = box_params[:remove_image_ids].reject(&:blank?)
       images_to_remove = Image.where(id: image_ids)
       @box.images.delete(images_to_remove)
+    end
+
+    # Assign box to a single group (replacing any existing group assignments)
+    def assign_box_group
+      group_id = box_params[:box_group_ids]
+      if group_id.present?
+        @box.box_group_ids = [group_id]
+      else
+        @box.box_group_ids = []
+      end
     end
 end
