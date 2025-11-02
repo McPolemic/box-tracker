@@ -20,6 +20,11 @@
     <%= form.text_area :contents %>
   </div>
 
+  <div>
+    <%= form.label :box_group_ids, "Group (Location)" %>
+    <%= form.collection_select :box_group_ids, BoxGroup.all, :id, :display_name, { include_blank: "(No Group)", selected: box.box_group_ids.first }, { multiple: false } %>
+  </div>
+
   <% if box.persisted? && box.images.any? %>
     <div>
       <label>Current Images</label>
