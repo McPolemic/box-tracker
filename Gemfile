@@ -64,3 +64,4 @@ end
 
 gem "rqrcode", "~> 2.2"
 gem "redcarpet", "~> 3.6"
+gem "image_processing", "~> 1.2"
