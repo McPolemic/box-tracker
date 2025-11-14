@@ -7,4 +7,10 @@
     <strong>Notes:</strong>
     <%= box_group.notes %>
   </p>
+  <% if box_group.boxes.any? %>
+    <p>
+      <strong>Boxes:</strong>
+      <%= box_group.boxes.map { |box| link_to box.display_name, box_path(box) }.join(", ").html_safe %>
+    </p>
+  <% end %>
 </div>

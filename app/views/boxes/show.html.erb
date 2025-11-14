@@ -16,6 +16,12 @@
       <strong>Contents:</strong>
       <%= markdown(@box.contents) %>
     </div>
+    <% if @box.box_groups.any? %>
+      <p>
+        <strong>Groups:</strong>
+        <%= @box.box_groups.map { |group| link_to group.display_name, box_group_path(group) }.join(", ").html_safe %>
+      </p>
+    <% end %>
   </section>
 
   <section id="qr-code">
