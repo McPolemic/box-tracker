@@ -13,3 +13,11 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+module ActionDispatch
+  class IntegrationTest
+    def authenticate_with_write_access
+      cookies[:write_access] = "granted"
+    end
+  end
+end

@@ -10,38 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_09_232854) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_14_002507) do
+  create_table "auth_tokens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "token"
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_auth_tokens_on_token", unique: true
+  end
+
   create_table "box_group_boxes", force: :cascade do |t|
     t.integer "box_group_id", null: false
     t.integer "box_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["box_group_id", "box_id"], name: "index_box_group_boxes_on_box_group_id_and_box_id", unique: true
     t.index ["box_group_id"], name: "index_box_group_boxes_on_box_group_id"
     t.index ["box_id"], name: "index_box_group_boxes_on_box_id"
   end
 
   create_table "box_group_images", force: :cascade do |t|
     t.integer "box_group_id", null: false
-    t.integer "image_id", null: false
     t.datetime "created_at", null: false
+    t.integer "image_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["box_group_id", "image_id"], name: "index_box_group_images_on_box_group_id_and_image_id", unique: true
     t.index ["box_group_id"], name: "index_box_group_images_on_box_group_id"
     t.index ["image_id"], name: "index_box_group_images_on_image_id"
   end
 
   create_table "box_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.string "display_name"
     t.text "notes"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "box_images", force: :cascade do |t|
     t.integer "box_id", null: false
-    t.integer "image_id", null: false
     t.datetime "created_at", null: false
+    t.integer "image_id", null: false
     t.datetime "updated_at", null: false
     t.index ["box_id", "image_id"], name: "index_box_images_on_box_id_and_image_id", unique: true
     t.index ["box_id"], name: "index_box_images_on_box_id"
@@ -49,37 +54,37 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_09_232854) do
   end
 
   create_table "boxes", force: :cascade do |t|
-    t.string "display_name"
     t.text "contents"
     t.datetime "created_at", null: false
+    t.string "display_name"
     t.datetime "updated_at", null: false
   end
 
   create_table "groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.string "display_name"
     t.text "notes"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "images", force: :cascade do |t|
-    t.binary "data"
     t.string "content_type"
     t.datetime "created_at", null: false
+    t.binary "data"
     t.datetime "updated_at", null: false
   end
 
   create_table "photos", force: :cascade do |t|
-    t.binary "data"
     t.string "content_type"
     t.datetime "created_at", null: false
+    t.binary "data"
     t.datetime "updated_at", null: false
   end
 
   create_table "pictures", force: :cascade do |t|
-    t.binary "data"
     t.string "content_type"
     t.datetime "created_at", null: false
+    t.binary "data"
     t.datetime "updated_at", null: false
   end
 

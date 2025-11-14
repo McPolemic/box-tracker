@@ -1,5 +1,8 @@
 class ImagesController < ApplicationController
+  include WriteAuthorization
+
   before_action :set_image, only: %i[ show edit update destroy ]
+  before_action :require_write_access, only: %i[ create update destroy ]
 
   # GET /images or /images.json
   def index

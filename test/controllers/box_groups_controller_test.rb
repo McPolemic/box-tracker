@@ -3,6 +3,7 @@ require "test_helper"
 class BoxGroupsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @box_group = box_groups(:one)
+    authenticate_with_write_access
   end
 
   test "should get index" do

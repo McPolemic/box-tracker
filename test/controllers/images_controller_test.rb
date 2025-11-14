@@ -3,6 +3,7 @@ require "test_helper"
 class ImagesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @image = images(:one)
+    authenticate_with_write_access
   end
 
   test "should get index" do

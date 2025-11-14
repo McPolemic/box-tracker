@@ -5,6 +5,7 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
     @box = boxes(:one)
     # Use fixture_file_upload from ActiveSupport::TestCase
     @uploaded_file = fixture_file_upload("test_image.png", "image/png")
+    authenticate_with_write_access
   end
 
   test "should get index" do
@@ -96,5 +97,30 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
       delete box_url(@box)
     end
     assert_redirected_to boxes_url
+  end
+
+  test "should block create without authentication" do
+    cookies[:write_access] = nil
+    assert_no_difference("Box.count") do
+      post boxes_url, params: { box: { display_name: "Test Box", contents: "Some contents" } }
+    end
+    assert_redirected_to root_path
+    assert_equal "Write access required. Please authenticate to perform this action.", flash[:alert]
+  end
+
+  test "should block update without authentication" do
+    cookies[:write_access] = nil
+    patch box_url(@box), params: { box: { display_name: "Updated Name" } }
+    assert_redirected_to root_path
+    assert_equal "Write access required. Please authenticate to perform this action.", flash[:alert]
+  end
+
+  test "should block destroy without authentication" do
+    cookies[:write_access] = nil
+    assert_no_difference("Box.count") do
+      delete box_url(@box)
+    end
+    assert_redirected_to root_path
+    assert_equal "Write access required. Please authenticate to perform this action.", flash[:alert]
   end
 end
