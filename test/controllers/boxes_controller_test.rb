@@ -99,20 +99,30 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to boxes_url
   end
 
+  test "should block new without authentication" do
+    cookies[:write_access] = nil
+    get new_box_url
+    assert_response :unauthorized
+  end
+
   test "should block create without authentication" do
     cookies[:write_access] = nil
     assert_no_difference("Box.count") do
       post boxes_url, params: { box: { display_name: "Test Box", contents: "Some contents" } }
     end
-    assert_redirected_to root_path
-    assert_equal "Write access required. Please authenticate to perform this action.", flash[:alert]
+    assert_response :unauthorized
+  end
+
+  test "should block edit without authentication" do
+    cookies[:write_access] = nil
+    get edit_box_url(@box)
+    assert_response :unauthorized
   end
 
   test "should block update without authentication" do
     cookies[:write_access] = nil
     patch box_url(@box), params: { box: { display_name: "Updated Name" } }
-    assert_redirected_to root_path
-    assert_equal "Write access required. Please authenticate to perform this action.", flash[:alert]
+    assert_response :unauthorized
   end
 
   test "should block destroy without authentication" do
@@ -120,7 +130,6 @@ class BoxesControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference("Box.count") do
       delete box_url(@box)
     end
-    assert_redirected_to root_path
-    assert_equal "Write access required. Please authenticate to perform this action.", flash[:alert]
+    assert_response :unauthorized
   end
 end

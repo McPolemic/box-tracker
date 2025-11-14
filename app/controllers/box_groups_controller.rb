@@ -2,7 +2,7 @@ class BoxGroupsController < ApplicationController
   include WriteAuthorization
 
   before_action :set_box_group, only: %i[ show edit update destroy add_box remove_box ]
-  before_action :require_write_access, only: %i[ create update destroy add_box remove_box bulk_add ]
+  before_action :require_write_access, only: %i[ new create edit update destroy add_box remove_box bulk_add ]
 
   # GET /box_groups or /box_groups.json
   def index

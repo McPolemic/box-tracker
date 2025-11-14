@@ -2,7 +2,7 @@ class BoxesController < ApplicationController
   include WriteAuthorization
 
   before_action :set_box, only: %i[ show edit update destroy ]
-  before_action :require_write_access, only: %i[ create update destroy ]
+  before_action :require_write_access, only: %i[ new create edit update destroy ]
 
   # GET /boxes
   def index
