@@ -17,10 +17,12 @@ class BoxesController < ApplicationController
   # GET /boxes/new
   def new
     @box = Box.new
+    @box_groups = BoxGroup.all
   end
 
   # GET /boxes/1/edit
   def edit
+    @box_groups = BoxGroup.all
   end
 
   # POST /boxes
@@ -31,6 +33,7 @@ class BoxesController < ApplicationController
       attach_uploaded_images if box_params[:uploaded_images]
       redirect_to @box, notice: "Box was successfully created."
     else
+      @box_groups = BoxGroup.all
       render :new, status: :unprocessable_entity
     end
   end
@@ -42,6 +45,7 @@ class BoxesController < ApplicationController
       attach_uploaded_images if box_params[:uploaded_images]
       redirect_to @box, notice: "Box was successfully updated."
     else
+      @box_groups = BoxGroup.all
       render :edit, status: :unprocessable_entity
     end
   end
@@ -61,7 +65,7 @@ class BoxesController < ApplicationController
 
     # Permit parameters, including an array for uploaded images.
     def box_params
-      params.require(:box).permit(:display_name, :contents, { uploaded_images: [], remove_image_ids: [] })
+      params.require(:box).permit(:display_name, :contents, { uploaded_images: [], remove_image_ids: [], box_group_ids: [] })
     end
 
     def uploaded_images_params
