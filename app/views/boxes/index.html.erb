@@ -7,11 +7,68 @@
     <div class="alert"><%= notice %></div>
   <% end %>
 
-  <%= form_with url: bulk_add_box_groups_path, method: :post, local: true, id: "bulk-add-form" do %>
+  <% if write_access? %>
+    <%= form_with url: bulk_add_box_groups_path, method: :post, local: true, id: "bulk-add-form" do %>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Display Name</th>
+            <th>Box Groups</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @boxes.each do |box| %>
+            <tr>
+              <td><%= check_box_tag "box_ids[]", box.id, false, class: "box-checkbox" %></td>
+              <td><%= link_to box.id, box %></td>
+              <td><%= link_to box.display_name, box %></td>
+              <td>
+                <% if box.box_groups.any? %>
+                  <%= box.box_groups.map { |bg| link_to "#{bg.id} - #{bg.display_name}", box }.join(", ").html_safe %>
+                <% else %>
+                  <span>None</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div id="bulk-add-controls" style="display: none;">
+        <h2>Add Selected Boxes to a Group</h2>
+        <p>
+          <%= select_tag "group_option",
+              options_for_select(
+                @box_groups.map { |bg| ["#{bg.id} - #{bg.display_name}", "existing_#{bg.id}"] } +
+                [["New Group", "new"]]
+              ),
+              id: "group-option-select" %>
+        </p>
+        <div id="new-group-fields" style="display: none;">
+          <p>
+            <label for="new_group_display_name">New Group Name:</label>
+            <%= text_field_tag "new_group_display_name" %>
+          </p>
+          <p>
+            <label for="new_group_notes">New Group Notes:</label>
+            <%= text_area_tag "new_group_notes" %>
+          </p>
+        </div>
+        <p>
+          <%= submit_tag "Add to Group", class: "button", disabled: true, id: "bulk-add-button" %>
+        </p>
+      </div>
+    <% end %>
+
+    <p>
+      <%= link_to "New Box", new_box_path, class: "button" %>
+    </p>
+  <% else %>
     <table>
       <thead>
         <tr>
-          <th></th>
           <th>ID</th>
           <th>Display Name</th>
           <th>Box Groups</th>
@@ -20,7 +77,6 @@
       <tbody>
         <% @boxes.each do |box| %>
           <tr>
-            <td><%= check_box_tag "box_ids[]", box.id, false, class: "box-checkbox" %></td>
             <td><%= link_to box.id, box %></td>
             <td><%= link_to box.display_name, box %></td>
             <td>
@@ -34,36 +90,7 @@
         <% end %>
       </tbody>
     </table>
-
-    <div id="bulk-add-controls" style="display: none;">
-      <h2>Add Selected Boxes to a Group</h2>
-      <p>
-        <%= select_tag "group_option",
-            options_for_select(
-              @box_groups.map { |bg| ["#{bg.id} - #{bg.display_name}", "existing_#{bg.id}"] } +
-              [["New Group", "new"]]
-            ),
-            id: "group-option-select" %>
-      </p>
-      <div id="new-group-fields" style="display: none;">
-        <p>
-          <label for="new_group_display_name">New Group Name:</label>
-          <%= text_field_tag "new_group_display_name" %>
-        </p>
-        <p>
-          <label for="new_group_notes">New Group Notes:</label>
-          <%= text_area_tag "new_group_notes" %>
-        </p>
-      </div>
-      <p>
-        <%= submit_tag "Add to Group", class: "button", disabled: true, id: "bulk-add-button" %>
-      </p>
-    </div>
   <% end %>
-
-  <p>
-    <%= link_to "New Box", new_box_path, class: "button" %>
-  </p>
 </main>
 
 <script>

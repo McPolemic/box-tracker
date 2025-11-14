@@ -37,8 +37,13 @@
   </section>
 
   <nav>
-    <%= link_to "Edit this box", edit_box_path(@box) %> |
-    <%= link_to "Back to boxes", boxes_path %> |
-    <%= button_to "Destroy this box", @box, method: :delete, data: { confirm: "Are you sure?" } %>
+    <% if write_access? %>
+      <%= link_to "Edit this box", edit_box_path(@box) %> |
+    <% end %>
+    <%= link_to "Back to boxes", boxes_path %>
+    <% if write_access? %>
+      |
+      <%= button_to "Destroy this box", @box, method: :delete, data: { confirm: "Are you sure?" } %>
+    <% end %>
   </nav>
 </main>

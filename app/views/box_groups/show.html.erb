@@ -10,11 +10,15 @@
   <%= render @box_group %>
 
   <p>
-    <%= link_to "Edit this Box Group", edit_box_group_path(@box_group) %> |
+    <% if write_access? %>
+      <%= link_to "Edit this Box Group", edit_box_group_path(@box_group) %> |
+    <% end %>
     <%= link_to "Back to Box Groups", box_groups_path %>
   </p>
 
-  <p>
-    <%= button_to "Destroy this Box Group", @box_group, method: :delete, data: { confirm: "Are you sure?" } %>
-  </p>
+  <% if write_access? %>
+    <p>
+      <%= button_to "Destroy this Box Group", @box_group, method: :delete, data: { confirm: "Are you sure?" } %>
+    </p>
+  <% end %>
 </main>
