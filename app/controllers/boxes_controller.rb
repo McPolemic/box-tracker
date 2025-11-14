@@ -29,10 +29,17 @@ class BoxesController < ApplicationController
   def create
     @box = Box.new(box_params.except(:uploaded_images))
 
-    if @box.save
-      attach_uploaded_images if box_params[:uploaded_images]
+    begin
+      ActiveRecord::Base.transaction do
+        @box.save!
+        attach_uploaded_images if box_params[:uploaded_images]
+      end
       redirect_to @box, notice: "Box was successfully created."
-    else
+    rescue ActiveRecord::RecordInvalid
+      @box_groups = BoxGroup.all
+      render :new, status: :unprocessable_entity
+    rescue => e
+      @box.errors.add(:base, "Failed to upload images: #{e.message}")
       @box_groups = BoxGroup.all
       render :new, status: :unprocessable_entity
     end
@@ -41,9 +48,15 @@ class BoxesController < ApplicationController
   # PATCH/PUT /boxes/1
   def update
     if @box.update(box_params.except(:uploaded_images, :remove_image_ids))
-      remove_marked_images if box_params[:remove_image_ids]
-      attach_uploaded_images if box_params[:uploaded_images]
-      redirect_to @box, notice: "Box was successfully updated."
+      begin
+        remove_marked_images if box_params[:remove_image_ids]
+        attach_uploaded_images if box_params[:uploaded_images]
+        redirect_to @box, notice: "Box was successfully updated."
+      rescue => e
+        @box.errors.add(:base, "Failed to process images: #{e.message}")
+        @box_groups = BoxGroup.all
+        render :edit, status: :unprocessable_entity
+      end
     else
       @box_groups = BoxGroup.all
       render :edit, status: :unprocessable_entity
@@ -75,8 +88,8 @@ class BoxesController < ApplicationController
     # For each uploaded file, create an Image record and associate it with this box.
     def attach_uploaded_images
       Array(uploaded_images_params).each do |uploaded_file|
-        image = Image.create(data: uploaded_file.read, content_type: uploaded_file.content_type)
-        BoxImage.create(box: @box, image: image)
+        image = Image.create!(data: uploaded_file.read, content_type: uploaded_file.content_type)
+        BoxImage.create!(box: @box, image: image)
       end
     end
 
