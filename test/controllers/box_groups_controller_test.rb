@@ -84,7 +84,7 @@ class BoxGroupsControllerTest < ActionDispatch::IntegrationTest
   test "should block bulk_add without authentication" do
     cookies[:write_access] = nil
     box = boxes(:one)
-    post bulk_add_box_groups_url, params: { box_ids: [box.id], group_option: "existing_#{@box_group.id}" }
+    post bulk_add_box_groups_url, params: { box_ids: [ box.id ], group_option: "existing_#{@box_group.id}" }
     assert_response :unauthorized
   end
 
